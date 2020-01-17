@@ -1,6 +1,6 @@
 # norns/circle/01 drone in three worlds
 
-(image!)
+![](https://github.com/monome-community/nc01-drone/raw/master/lib/nc.jpg)
 
 create an interactive drone machine with three different sound worlds
 
