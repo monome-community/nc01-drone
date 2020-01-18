@@ -1,4 +1,4 @@
--- 01-drone template
+-- seeker (nc01-drone)
 -- @tehn
 --
 -- E1 volume
@@ -8,7 +8,7 @@
 -- K3 change worlds
 
 function init()
-	file = _path.code .. "01-drone/lib/bc.wav"
+	file = _path.code .. "nc01-drone/lib/dd.wav"
   softcut.buffer_read_mono(file,0,0,-1,1,1)
   softcut.enable(1,1)
   softcut.buffer(1,1)
