@@ -2,6 +2,8 @@
 
 ![](https://github.com/monome-community/nc01-drone/raw/master/lib/nc.jpg)
 
+[https://llllllll.co/t/norns-circle-01-drone-in-three-worlds/28582](https://llllllll.co/t/norns-circle-01-drone-in-three-worlds/28582)
+
 create an interactive drone machine with three different sound worlds
 
 - three samples are provided
