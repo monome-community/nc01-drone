@@ -14,7 +14,6 @@ local utils = include('lib/planetary/utils')
 local graphics = include('lib/planetary/graphics')
 
 sc = softcut -- typing shortcut
-length = 0
 
 -- graphics things
 horizon_height = 28
@@ -23,22 +22,18 @@ world_stars = {}
 -- sound things
 current_world = 1
 level = {1,0,0}
-lst = {1,2,3}
-lend = {2,3,4}
-scrub = 1
 pulse_duration = 2
 
-start_points = {1,181,1}
+brightnesses = {1,1,1}
+probs = {0.2,0.2,0.2} -- probabilities per world
+
+start_points = {1,181,30}
 loop_points = start_points
 buffer_indexes = {1,1,2}
 
-brightnesses = {1,1,1}
-probs = {0.2,0.2,0.2}
-
-events = {}
+events = {} -- ie, things in the landscape.
 
 function init_all_events()
--- initialize events
   for world=1,3 do
     events[world] = {}
     init_world_events(world)
@@ -65,10 +60,6 @@ function init()
   sc.buffer_read_mono(file2,0,180,-1,1,1)
   sc.buffer_read_mono(file3,0,0,-1,1,2)
 
-  -- _,length,sr = audio.file_info(file1)
-  -- length = length/sr
-  -- print(audio.file_info(file1))
-
   for i=1,3 do
     sc.enable(i,1)
     sc.buffer(i,buffer_indexes[i])
@@ -88,19 +79,12 @@ function init()
 
     freq = util.linexp(0, 1, 60, 12000, brightnesses[i])
     sc.post_filter_fc(i,freq)
+
+    sc.loop_start(i,start_points[i])
+    sc.loop_end(i,start_points[i]+pulse_duration)
+    sc.position(i,start_points[i])
+
   end
-
-  sc.loop_start(1,start_points[1])
-  sc.loop_end(1,start_points[1]+pulse_duration)
-  sc.position(1,start_points[1])
-
-  sc.loop_start(2,start_points[2])
-  sc.loop_end(2,start_points[2] + pulse_duration)
-  sc.position(2,start_points[2])
-
-  sc.loop_start(3,start_points[3])
-  sc.loop_end(3,start_points[3] + pulse_duration)
-  sc.position(3,start_points[3])
 
   animation_clock = metro.init(tick, (1.0/60), -1)
   animation_clock:start()
@@ -108,10 +92,10 @@ function init()
   world1_clock = metro.init(world1_tick, (1.0/40), -1)
   world1_clock:start()
 
-  world2_clock = metro.init(world2_tick, (1.0/20), -1)
+  world2_clock = metro.init(world2_tick, (1.0/30), -1)
   world2_clock:start()
 
-  world3_clock = metro.init(world3_tick, (1.0/30), -1)
+  world3_clock = metro.init(world3_tick, (1.0/20), -1)
   world3_clock:start()
 end
 
@@ -154,7 +138,6 @@ function enc(n,d)
   elseif n==2 then
     brightnesses[current_world] = util.clamp(brightnesses[current_world] + d/100,0,1)
     freq = util.linexp(0, 1, 60, 6000, brightnesses[current_world])
-    print(freq)
     sc.post_filter_fc(current_world,freq)
   elseif n==3 then
     -- adjust world probablity
@@ -188,7 +171,6 @@ function pick_new_loop(world)
 end
 
 function redraw(stage)
-  -- print("tick", stage)
   screen.clear()
   screen.line_width(1)
   screen.line_cap("butt")
