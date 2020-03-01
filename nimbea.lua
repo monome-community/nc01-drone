@@ -221,7 +221,7 @@ title_fade = 15
 params_fade = 0
 
 volume = 60
-brightness=8
+brightness=48
 density=100
 
 scape = {
@@ -308,7 +308,7 @@ function world_update()
 end
 
 function shift()
-  if frame%brightness==0 then t = t+brightness end
+  if frame%(61-brightness)==0 then t = t+brightness end
   new_pos = (movements[current_movement](t) % (worlds[world].length * 10 ))/10 --((t>>3|t>>6)*25+(t*4))
   softcut.buffer(current_voice,current_buffer)
   softcut.position(current_voice,new_pos)
@@ -338,7 +338,7 @@ function enc(n,d)
     end
     if n == 2 then
       -- E2 brightness 
-      brightness = util.clamp(brightness + d,1,100)
+      brightness = util.clamp(brightness + d,1,60)
     end
     if n == 3 then
       -- E3 density
