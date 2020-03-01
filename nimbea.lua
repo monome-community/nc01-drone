@@ -1,7 +1,17 @@
 -- Nimbea (nc01-drone)
 -- @jaggednz
 --
-
+-- World 1:
+-- first you will try to control,
+-- then to predict
+-- finally you will understand
+-- 
+-- World 2:
+-- faced with the mountain rain
+-- 
+-- World 3:
+-- the paradox of manipulating chaos
+-- 
 -- E1 volume
 -- E2 brightness
 -- E3 density
