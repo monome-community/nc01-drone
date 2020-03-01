@@ -60,25 +60,14 @@ function init()
     softcut.event_phase(update_positions) -- update the positions
     softcut.poll_start_phase()            -- start polling
     
-    --sc.pre_filter_rq(i,0.5)
-    --sc.post_filter_dry(i,0.0)
-    --sc.post_filter_fc(i,cutoffs[i])
-    
     sc.rate(i,rates[i])
   end
-      
-  --sc.post_filter_lp(1,1.0)
-  --sc.post_filter_bp(2,1.0)
-  --sc.post_filter_hp(3,1.0)
 
   print("approaching...")
 end
 
 function redraw()
   screen.clear()
-
-  --screen.move(50,10)
-  --screen.text_right(string.format("%d",cutoffs[edit]))
   
   for i=1,3 do
     -- before start point, bright line
