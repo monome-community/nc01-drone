@@ -14,19 +14,19 @@ world_end = {}
 voice_loop_len_ratio = { 64, 64, 64 }
 -- same, stored as actual duration
 voice_loop_len = {}
+-- save postions after adding
+voice_pos_scaled = { 0, 0, 0 }
 
 for i=1,3 do
    local k = world_keys[i]
    local r = worlds[k].ratios[2]
    voice_loop_len[i] = r[1] / r[2]
-   print(voice_loop_len[i])
 end
 
 -- stereo width. 1 means voice pair is panned hard L/R
 voice_width = { 1, 1, 1 }
-voice_pos_scaled = { 0, 0, 0 }
 
-function set_width(i, v)
+function set_voice_width(i, v)
    voice_width[i] = v
    sc.pan(i, v)
    sc.pan(i+3, v * -1)
@@ -42,22 +42,16 @@ local load_files = function()
       sc.buffer_read_stereo(file, worlds[k].start, pos, dur)
       world_start[i] = pos
       world_end[i] = pos+dur
-      print(file, world_start[i], world_end[i])
       pos = pos + dur
       i = i+1
    end
-   tab.print(world_start)
-   tab.print(world_end)
 end
 
 -- set a single voice to a given world
 -- this updates tonal and positional tendencies
 set_voice_world = function(i, z, start_off, end_off)   
-   print("set_voice world; voice="..i.."; world="..z.."; off: ", start_off, end_off)
-   print("world_key: "..world_keys[z])
    local zs = world_start[z] + start_off
    local ze = world_end[z] + end_off
-   print("loop: ", zs, ze)
    sc.loop_start(i, zs)
    sc.loop_start(i+3, zs)
    sc.loop_end(i, ze)
@@ -86,7 +80,6 @@ update_voice_loop = function(i)
    local le = pos + loop_dur
    local ze = world_end[which_world]
    if le > ze then le = ze end
-   --print(pos, le)
    fade = loop_dur / 4
    sc.loop_start(i, pos)
    sc.loop_end(i, le)
@@ -94,7 +87,6 @@ update_voice_loop = function(i)
    sc.loop_start(i+3, pos)
    sc.loop_end(i+3, le)
    sc.fade_time(i+3, fade)
-
 end 
 
 -- set position of single voice
@@ -113,8 +105,6 @@ cut_set_world = function(z)
    for i=1,3 do
       set_voice_world(i, z, i, -2*i)
       set_voice_pos(i, voice_pos[i])
-      print("setting world; setting voice pos: ", i, voice_pos[i])
-      print("current, z: ", which_world, z)
    end
 end 
 
@@ -124,7 +114,6 @@ cut_advance_voice_rate = function()
    local i = voice_to_advance
    cur_voice_rate_idx[i] = cur_voice_rate_idx[i] + 1
    if cur_voice_rate_idx[i] > 4 then cur_voice_rate_idx[i] = 1 end
-   print( cur_voice_rate_idx[i])
    local ratio = worlds[world_keys[which_world]].ratios[cur_voice_rate_idx[i]]
    sc.rate(i, ratio[1] / ratio[2])
    sc.rate(i+3, ratio[1] / ratio[2])

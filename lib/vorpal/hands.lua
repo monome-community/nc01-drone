@@ -2,15 +2,14 @@
 function begin_hands()
    
    ----------------
-   ----xvol
-   xvol_max = 128
-   params:add_number("xvol", "xvol", 0, xvol_max)
-   params:set_action("xvol", function(xvol)
+   ----feed
+   feed_max = 128
+   params:add_number("feed", "feed", 0, feed_max)
+   params:set_action("feed", function(feed)
 			local x, rec, pre
-			x = xvol/xvol_max
+			x = feed/feed_max
 			pre = (math.cos(x * math.pi) + 1) / 2
 			rec = (math.cos((x+1) * math.pi) + 1) / 2
-			--print(rec, pre)
 			for i=1,6 do 
 			   softcut.rec_level(i,rec)
 			   softcut.pre_level(i,pre)
@@ -26,18 +25,21 @@ function begin_hands()
 		  local br = 0
 		  local bm_2 = bright_max/2
 		  local lp = (bright_max - bright)/bright_max
-		  local bp = ((bm_2)-math.abs(bright-(bm_2)))/bm_2
+		  local bp = ((bm_2)-math.abs(bright-(bm_2)))/bm_2 + 0.25
 		  if bp > (1-lp) then bp = (1-lp) end
 		  local dry = 1 - (lp+bp)
-		  
 		  lp = lp * 0.8
 		  bp = bp * 0.8
 		  br = br * 0.8
 		  rq = math.pow(2, ((1-bright)/bright_max)*4)
-		  --print(lp, bp, br, rq)
 		  if rq > 1 then rq = 1 end
 		  if rq < 0.041666 then rq = 0.041666 end
-		  for i=1,6 do
+		  local w -- width per voice
+		  for i=1,3 do
+		     w = math.cos((i*0.25 + 1)*math.pi)
+		     set_voice_width(i, w)
+		  end
+		  for i=1,6 do		     
 		     softcut.post_filter_dry(i, dry)
 		     softcut.post_filter_lp(i, lp)
 		     softcut.post_filter_bp(i, bp)
@@ -74,12 +76,11 @@ function begin_hands()
 		     voice_loop_len_ratio[i] = r[i] * mul[i]
 		     update_voice_loop(i)
 		  end
-		  --print(dense, voice_loop_len_ratio[1],voice_loop_len_ratio[2],voice_loop_len_ratio[3])
    end})
 end
 
 delta_volume = function(z)
-   params:delta("xvol", z)
+   params:delta("feed", z)
 end
 
 delta_bright = function(z)
