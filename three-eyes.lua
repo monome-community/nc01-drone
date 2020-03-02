@@ -3,10 +3,18 @@
 -- @2994898
 --
 -- E1 volume
--- E2 brightness - playback rate modifier
--- E3 density - length of each voices
--- K2 evolve - add voice or replace the oldest voice (long press *1 sec.* to remove an oldest voice)
--- K3 change worlds - rebalance volume of each voices
+-- E2 brightness 
+--    - playback rate modifier
+-- E3 density 
+--    - length of each voices
+-- K2 evolve 
+--    - add voice or replace the
+--      oldest voice (long press 
+--      *1 sec.* to remove an 
+--      oldest voice)
+-- K3 change worlds 
+--    - rebalance volume of 
+--      each voices
 
 local sc = softcut -- hail to Tehn
 local file = _path.code .. "nc01-drone/lib/eb.wav"

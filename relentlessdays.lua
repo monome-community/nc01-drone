@@ -1,14 +1,25 @@
 -- three worlds 
 -- by @junklight - Feb 2020 
--- as part of an exercise on lines when I should have been working on other things
+-- as part of an exercise on 
+-- lines when I should have been 
+-- working on other things
 -- 
--- three aleatoric sound worlds and accompanying visualisations
--- be patient - worlds 2 and 3 take a few seconds for the sound to find its way 
--- through the system to the output 
+-- three aleatoric sound worlds
+-- and accompanying 
+-- visualisations
+-- be patient - worlds 2 and 3 
+-- take a few seconds for the 
+-- sound to find its way 
+-- through the system to the
+-- output 
 -- 
--- yes there are glitches and distortions! I like them :-) 
+-- yes there are glitches and 
+-- distortions! I like them :-)
 --
--- each world resets softcut - was easier than tracking down what I'd failed to reset manually 
+-- each world resets softcut -
+-- was easier than tracking down
+-- what I'd failed to reset
+-- manually 
 
 -- IMPROVEMENTS (things that could be done but won't)
 -- file/dir on params menu to open another set of files - would need file length detection 

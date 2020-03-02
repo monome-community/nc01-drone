@@ -2,9 +2,11 @@
 -- @wheelersounds
 --
 -- E1 volume
--- E2 brightness (levels of top buffers)
+-- E2 brightness 
+--    (levels of top buffers)
 -- E3 density
--- K2 evolve (change mix of octaves, position in files)
+-- K2 evolve (change mix of 
+--    octaves, position in files)
 -- K3 change worlds
 
 

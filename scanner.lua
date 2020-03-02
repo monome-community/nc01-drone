@@ -1,11 +1,16 @@
 -- scanner (nc01-drone)
 -- @markel_m
 --
--- E1 volume          change voice volume
--- E2 brightness      change loop start position
--- E3 density         change loop length
--- K2 evolve          change rate
--- K3 change worlds   change voice to edit
+-- E1 volume          
+--    change voice volume
+-- E2 brightness      
+--    change loop start pos
+-- E3 density         
+--    change loop length
+-- K2 evolve          
+--    change rate
+-- K3 change worlds   
+--    change voice to edit
 
 sc = softcut -- typing shortcut
 length = 0
