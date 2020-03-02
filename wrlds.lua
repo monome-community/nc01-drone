@@ -4,6 +4,13 @@
 --  \/_/  /
 --
 -- wrlds
+-- @andrew
+--
+-- E1 volume
+-- E2 brightness
+-- E3 density
+-- K2 evolve
+-- K3 change worlds
 
 samples = { "bc", "dd", "eb" }
 slew = 0.2
