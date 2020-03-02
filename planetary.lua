@@ -70,10 +70,10 @@ function init()
     sc.rate(i,1.0)
     sc.play(i,0)
 
-    sc.post_filter_dry(i,0.5)
+    sc.post_filter_dry(i,0)
     sc.post_filter_lp(i,1)
     sc.post_filter_hp(i,0)
-    sc.post_filter_bp(i,0.25)
+    sc.post_filter_bp(i,0)
     sc.post_filter_br(i,0)
     sc.post_filter_rq(i,0.6)
 
