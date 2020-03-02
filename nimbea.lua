@@ -10,13 +10,19 @@
 -- faced with the mountain rain
 -- 
 -- World 3:
--- the paradox of manipulating chaos
+-- the paradox of 
+--            manipulating chaos
 -- 
 -- E1 volume
 -- E2 brightness
 -- E3 density
 -- K2 evolve
 -- K3 change worlds
+
+debug_msg = false
+
+-- My sincerest apologies, all the code below is a messy hack
+-- planetary.lua is a far better example to follow... ;)
 
 -- black mesa
 function world_one()
@@ -286,7 +292,6 @@ end
   
 
 function init()
-  print("start")
   math.randomseed(os.time()) -- and the world was born, a rain drops dancing around wheels within wheels ...
   load_world_buffer()
   for v = 1,voices do
@@ -327,11 +332,11 @@ function shift()
   if (t%7 == 1) then 
     glitch=true
     voice_panning[current_voice] = voice_panning[current_voice] * -1 
-    print("Pan flip "..current_voice)
+    if debug_msg then print("Pan flip "..current_voice) end
   end
   vpan = (density/100) * (voice_panning[current_voice]*math.random())
   softcut.pan(current_voice,vpan)
-  print("t=" .. t .. " Assigning voice".. current_voice .." to position "..new_pos .. " panning " .. vpan)
+  if debug_msg then print("t=" .. t .. " Assigning voice".. current_voice .." to position "..new_pos .. " panning " .. vpan) end
   softcut.enable(current_voice,1)
   
   scape.add_node(new_pos//4)
@@ -368,7 +373,7 @@ function key(n,z)
   if (n==3 and z==1) then
     -- K3 change worlds
     current_buffer = current_buffer == 1 and 2 or 1
-    print("buffer switched to " .. current_buffer)
+    if debug_msg then print("buffer switched to " .. current_buffer) end
     softcut.buffer_clear_channel(current_buffer)
     if (world == 3) then 
       world = 1
