@@ -285,7 +285,7 @@ function load_world_buffer()
   -- dd.wav ~ 136sec - default
   -- bc.wav ~ 166sec - rain
   -- eb.wav ~ 337sec - singing start ~ 240sec
-	file = _path.code .. "nc01-drone-jagged/lib/" .. worlds[world].file
+	file = _path.code .. "nc01-drone/lib/" .. worlds[world].file
 	print("opening world of ".. file)
   softcut.buffer_read_mono(file,0,0,-1,1,current_buffer)
 end
