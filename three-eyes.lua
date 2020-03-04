@@ -33,6 +33,12 @@ local volume = 80
 local brightness = 50
 local density = 80
 
+function freeCounter(id)
+  if id ~= 0 and metro.assigned[id] then
+    metro.free(id)
+  end
+end
+
 function setVoiceProps(index, transitionTime, shouldRateTransition)
   presence = perspectives[perspectiveIndex][index]
 
@@ -56,7 +62,6 @@ function setVoiceProps(index, transitionTime, shouldRateTransition)
   sc.post_filter_fc(index, 10000 * presence)
   sc.post_filter_rq(index, 2 * presence)
   sc.post_filter_bp(index, 1 - presence)
-  sc.play(index, 1)
   sc.level(index, util.linexp(1, 100, 0.001, presence, volume))
 end
 
@@ -75,16 +80,33 @@ function addVoice()
   sc.loop_start(voiceIndex, voiceLoopPoints[voiceIndex][1])
   sc.loop_end(voiceIndex, voiceLoopPoints[voiceIndex][2])
   sc.position(voiceIndex, voiceLoopPoints[voiceIndex][1])
+  sc.play(voiceIndex, 1)
 
   setVoiceProps(voiceIndex, 7)
 
-  table.insert(voices, #voices + 1)
-  end
+  table.insert(voices, voiceIndex)
+end
 
 function removeVoice(transitionTime)
+  if #voices == 0 then return end
+
   sc.level_slew_time(voices[1], transitionTime or 3)
   sc.level(voices[1], 0)
-  table.remove(voices, 1)
+
+  local counterId = 0
+  local counter = metro.init(function()
+    if #voices == 0 then
+      -- better to do with throttle removeVoice tho, this is cheap enough to call even if it's redundant
+      return
+    end
+
+    sc.play(voices[1], 0)
+    table.remove(voices, 1)
+    freeCounter(counterId)
+  end, transitionTime or 3, 1)
+
+  counterId = counter.props.id
+  counter:start()
 end
 
 -- k2_counter: to detect key press / long press
@@ -101,21 +123,35 @@ function fadePerspective()
   perspectiveIndex = perspectiveIndex + 1
   if perspectiveIndex == 4 then perspectiveIndex = 1 end
 
-  local counter = metro.init(function(c) setVoiceProps(c, distances[perspectiveIndex], true) end, distances[perspectiveIndex] / 3, #voices)
-  counter:start()
+  if #voices ~= 0 then
+    local counterId = 0
+    local counter = metro.init(function(c)
+      setVoiceProps(c, distances[perspectiveIndex], true)
+
+      if c == #voices then freeCounter(counterId) end
+    end, distances[perspectiveIndex] / 3, #voices)
+
+    counterId = counter.props.id
+    counter:start()
+  end
 
   redraw()
 end
 
 function evolve()
-  voiceFade_counter = metro.init(addVoice, 0.1, 1)
+  local counterId = 0
+  local counter = metro.init(function()
+    addVoice()
+    freeCounter(counterId)
+  end, 0.1, 1)
 
   if #voices == 6 then
     removeVoice()
-    voiceFade_counter.time = 3
+    counter.time = 3
   end
 
-  voiceFade_counter:start()
+  counterId = counter.props.id
+  counter:start()
 end
 
 function key(n, z)
@@ -139,7 +175,7 @@ function enc(n, d)
     volume = util.clamp(volume + d, 1, 100)
 
     for i = 1, #voices do
-      setVoiceProps(i, 0.01)
+      setVoiceProps(voices[i], 0.01)
     end
 
     redraw()
