@@ -23,7 +23,7 @@ for i = 1,3 do
 end
 
 function init()
-	file = _path.code .. filepaths[1]
+  file = _path.code .. filepaths[1]
   
   softcut.enable(1,1)
   softcut.buffer(1,1)
