@@ -24,7 +24,6 @@ end
 
 function init()
 	file = _path.code .. filepaths[1]
-  softcut.buffer_read_mono(file,0,1,-1,1,1)
   
   softcut.enable(1,1)
   softcut.buffer(1,1)
@@ -36,6 +35,8 @@ function init()
   softcut.position(1,1)
   softcut.rate(1,1.0)
   softcut.play(1,1)
+  
+  softcut.buffer_read_mono(file,0,1,-1,1,1)
   
   for i = 2,4 do
     softcut.level_cut_cut(1,i,1)
