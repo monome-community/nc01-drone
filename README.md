@@ -24,6 +24,6 @@ parameters are subject to interpretation. "brightness" could mean filter cutoff,
 
 deadline: march 1
 
-- submit your script by submitting a PR to github: https://github.com/monome-community/nc01-drone(we will help with instructions)
+- submit your script by submitting a PR to github: https://github.com/monome-community/nc01-drone (we will help with instructions)
 - record 2-6 minutes of the output of your script using TAPE. feel free to use the built-in reverb. upload to google drive, dropbox, etc. post link on thread.
 
